@@ -16,6 +16,9 @@ namespace rf {
             Element* getElement(std::string name);
             void setElement(std::string name, Element element);
             Element* randomElement();
+            void processCommand(std::vector<std::string>* command);
+            void readFromFile(std::string* text);
+            void readFromString(std::string path);
     };
 }
 

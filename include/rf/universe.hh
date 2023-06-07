@@ -20,6 +20,9 @@ namespace rf {
             Element* getElement(std::string name);
             void addParticle();
             void addParticles(size_t numberOfParticles);
+
+            void loadMatterFromString(std::string* text);
+            void loadMatterFromFile(std::string path);
     };
 };
 

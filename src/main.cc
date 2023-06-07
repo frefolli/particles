@@ -17,23 +17,7 @@ void InitUniverse() {
 }
 
 void FillUniverse() {
-    UNIVERSE->addElement("Carbon", rf::Element(BLACK));
-    UNIVERSE->addElement("Oxygen", rf::Element(RED));
-    UNIVERSE->addElement("Hydrogen", rf::Element(BLUE));
-    auto Carbon = UNIVERSE->getElement("Carbon");
-    auto Oxygen = UNIVERSE->getElement("Oxygen");
-    auto Hydrogen = UNIVERSE->getElement("Hydrogen");
-
-    Carbon->setGravity(Carbon, 1.0F);
-    Carbon->setGravity(Oxygen, -1.0F);
-    Carbon->setGravity(Hydrogen, -1.0F);
-    
-    Oxygen->setGravity(Oxygen, 1.0F);
-
-    Hydrogen->setGravity(Hydrogen, 1.0F);
-    Hydrogen->setGravity(Oxygen, -1.0F);
-    Hydrogen->setGravity(Carbon, 1.0F);
-
+    UNIVERSE->loadMatterFromFile("assets/first.mat");
     UNIVERSE->addParticles(NUMBER_OF_PARTICLES);
 }
 

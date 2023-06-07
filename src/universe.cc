@@ -77,3 +77,11 @@ void rf::Universe::addParticles(size_t numberOfParticles) {
         addParticle();
     }
 }
+
+void rf::Universe::loadMatterFromString(std::string* text) {
+    matter.loadFromString(text);
+}
+
+void rf::Universe::loadMatterFromFile(std::string path) {
+    matter.loadFromFile(path);
+}

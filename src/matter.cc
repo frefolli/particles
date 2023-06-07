@@ -19,5 +19,11 @@ rf::Element* rf::Matter::getElement(std::string name) {
 }
 
 void rf::Matter::setElement(std::string name, rf::Element element) {
-    gravities[name] = element;
+    elements[name] = element;
+}
+
+rf::Element* rf::Matter::randomElement() {
+    auto it = elements.begin();
+    std::advance(it, std::rand() % elements.size());
+    return &it->second;
 }

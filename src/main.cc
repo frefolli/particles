@@ -6,17 +6,34 @@
 
 size_t WIDTH = 600;
 size_t HEIGHT = 400;
-size_t NUMBER_OF_PARTICLES = 5;
+size_t NUMBER_OF_PARTICLES = 50;
 
 rf::Universe* UNIVERSE = nullptr;
 
 void InitUniverse() {
     UNIVERSE = new rf::Universe(WIDTH, HEIGHT);
-    if (UNIVERSE == nullptr);
+    if (UNIVERSE == nullptr)
         throw std::runtime_error("NullPointerException");
 }
 
 void FillUniverse() {
+    UNIVERSE->addElement("Carbon", rf::Element(BLACK));
+    UNIVERSE->addElement("Oxygen", rf::Element(RED));
+    UNIVERSE->addElement("Hydrogen", rf::Element(BLUE));
+    auto Carbon = UNIVERSE->getElement("Carbon");
+    auto Oxygen = UNIVERSE->getElement("Oxygen");
+    auto Hydrogen = UNIVERSE->getElement("Hydrogen");
+
+    Carbon->setGravity(Carbon, 1.0F);
+    Carbon->setGravity(Oxygen, -1.0F);
+    Carbon->setGravity(Hydrogen, -1.0F);
+    
+    Oxygen->setGravity(Oxygen, 1.0F);
+
+    Hydrogen->setGravity(Hydrogen, 1.0F);
+    Hydrogen->setGravity(Oxygen, -1.0F);
+    Hydrogen->setGravity(Carbon, 1.0F);
+
     UNIVERSE->addParticles(NUMBER_OF_PARTICLES);
 }
 
@@ -26,6 +43,11 @@ void StepUniverse() {
 
 void DrawUniverse() {
     UNIVERSE->draw();
+}
+
+void CloseUniverse() {
+    delete UNIVERSE;
+    UNIVERSE = nullptr;
 }
 
 int main() {
@@ -39,7 +61,8 @@ int main() {
     // --------------------------------------------------------------------
     // REL
     while (!WindowShouldClose()) {
-        StepUniverse();
+        if(IsKeyDown(KEY_SPACE))
+            StepUniverse();
         BeginDrawing();
         ClearBackground(WHITE);
         DrawUniverse();
@@ -47,7 +70,7 @@ int main() {
     }
     // --------------------------------------------------------------------
     // DELETE
-    delete universe;
+    CloseUniverse();
     // --------------------------------------------------------------------
     CloseWindow();
 }

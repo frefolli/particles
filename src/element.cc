@@ -10,7 +10,7 @@ rf::Element::Element(Color color) {
 rf::Element::Element(Color color, std::map<rf::Element*, double> gravities) {
     this->color = color;
     for (auto gravityEntry : gravities) {
-        setGravity(gravityEntry->first, gravityEntry->second);
+        setGravity(gravityEntry.first, gravityEntry.second);
     }
 }
 
@@ -19,7 +19,7 @@ double rf::Element::getGravity(rf::Element* other) {
         throw std::runtime_error("NullPointerException");
     auto item = gravities.find(other);
     if (item == gravities.end())
-        throw std::runtime_error("ItemNotFoundException");
+        return 0.0F;
     return item->second;
 }
 

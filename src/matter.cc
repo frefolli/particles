@@ -129,3 +129,34 @@ void rf::Matter::loadFromFile(std::string path) {
     file.close();
     loadFromString(&text);
 }
+
+std::string* dumpToString() {
+    std::string* string = new std::string();
+    for (auto entry : elements) {
+        std::string name = entry.first;
+        Color color = entry.second->getColor();
+        std::ostringstream ss = "#";
+        ss << std::hex << color.R;
+        ss << std::hex << color.G;
+        ss << std::hex << color.B;
+        ss << std::hex << color.a;
+        string->append("el " + name + " " + ss.str());
+        string->append("\n");
+    }
+
+    for (auto entryA : elements) {
+        for (auto entryB : elements) {
+            string->append("gr " + entryA.first + " " + entryB.first);
+            string->append(" " + std::to_string(entryA.second->getGravity(entryB.second)));
+            string->append("\n");
+        }
+    }
+    return string;
+}
+
+void dumpToFile(std::string path) {
+    std::string* string = dumpToString();
+    ofstream file; file.open(path);
+    file << *string;
+    file.close();
+}

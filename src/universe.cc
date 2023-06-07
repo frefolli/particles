@@ -1,5 +1,6 @@
 #include <rf/universe.hh>
 #include <cmath>
+#include <raylib.h>
 #define ACCELERATOR 1
 
 // Matter matter
@@ -95,4 +96,20 @@ void rf::Universe::loadMatterFromString(std::string* text) {
 
 void rf::Universe::loadMatterFromFile(std::string path) {
     matter.loadFromFile(path);
+}
+
+
+void rf::Universe::randomMatter() {
+    matter.addElement("Green", Element(GREEN));
+    matter.addElement("Red", Element(RED));
+    matter.addElement("Black", Element(BLACK));
+    matter.addElement("Blue", Element(BLUE));
+};
+
+std::string* rf::Universe::dumpMatterToString() {
+    return matter.dumpMatterToString();
+}
+
+void rf::Universe::dumpMatterToFile(std::string path) {
+    matter.dumpMatterToFile(path);
 }

@@ -20,6 +20,9 @@ namespace rf {
             void processCommand(std::vector<std::string>* command);
             void loadFromString(std::string* text);
             void loadFromFile(std::string path);
+            std::string* dumpToString();
+            void dumpToFile(std::string path);
+            void randomMatter();
     };
 }
 

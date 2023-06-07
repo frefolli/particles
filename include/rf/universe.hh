@@ -23,6 +23,9 @@ namespace rf {
 
             void loadMatterFromString(std::string* text);
             void loadMatterFromFile(std::string path);
+            void randomMatter();
+            std::string* dumpMatterToString();
+            void dumpMatterToFile(std::string path);
     };
 };
 

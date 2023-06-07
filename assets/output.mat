@@ -1,0 +1,20 @@
+el Black #000000ff
+el Blue #00971fff
+el Green #004e03ff
+el Red #6e9273ff
+gr Black Black 0.408681
+gr Black Blue 0.408681
+gr Black Green 0.408681
+gr Black Red 0.408681
+gr Blue Black 0.932690
+gr Blue Blue 0.932690
+gr Blue Green 0.932690
+gr Blue Red 0.932690
+gr Green Black 0.319986
+gr Green Blue 0.319986
+gr Green Green 0.319986
+gr Green Red 0.319986
+gr Red Black 0.596179
+gr Red Blue 0.596179
+gr Red Green 0.596179
+gr Red Red 0.596179

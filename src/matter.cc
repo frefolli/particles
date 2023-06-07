@@ -5,6 +5,36 @@
 #include <sstream>
 #include <filesystem>
 
+const char* HEX_DIGITS = "0123456789abcdef";
+std::string to_hex(size_t number) {
+    std::string ss = "";
+    while (number > 16) {
+        ss += HEX_DIGITS[number % 16];
+        number /= 16;
+    }
+    ss += HEX_DIGITS[number % 16];
+    if (number < 256 && ss.size() < 2)
+        ss = "0" + ss;
+    return ss;
+}
+
+size_t hex_index(char c) {
+    for (size_t i = 0; i < 16; i++)
+        if (HEX_DIGITS[i] == c)
+            return i;
+    return 16;
+}
+
+size_t from_hex(std::string number) {
+    size_t acc = 0;
+    for (size_t i = 0; i < number.size(); ++i) {
+        acc += hex_index(number[i]);
+        if (i != number.size() - 1)
+            acc *= 16;
+    }
+    return acc;
+}
+
 // std::map<std::string, Element> elements
 
 rf::Matter::Matter() {
@@ -42,13 +72,13 @@ void rf::Matter::processCommand(std::vector<std::string>* command) {
         std::string name = command->at(1);
         std::string color = command->at(2);
         if (color.at(0) == '#') {
-            if (color.size() != 7)
+            if (color.size() != 9)
                 throw std::runtime_error("RGB color should be in format #ffffffff");
             unsigned char R, G, B, a;
-            std::istringstream(color.substr(1,2)) >> std::hex >> R;
-            std::istringstream(color.substr(3,2)) >> std::hex >> G;
-            std::istringstream(color.substr(5,2)) >> std::hex >> B;
-            std::istringstream(color.substr(7,2)) >> std::hex >> a;
+            R = from_hex(color.substr(1,2));
+            G = from_hex(color.substr(3,2));
+            B = from_hex(color.substr(5,2));
+            a = from_hex(color.substr(7,2));
             setElement(name, Color {R, G, B, a});
         } else {
             if (color == "white")
@@ -130,33 +160,30 @@ void rf::Matter::loadFromFile(std::string path) {
     loadFromString(&text);
 }
 
-std::string* dumpToString() {
+std::string* rf::Matter::dumpToString() {
     std::string* string = new std::string();
     for (auto entry : elements) {
         std::string name = entry.first;
-        Color color = entry.second->getColor();
-        std::ostringstream ss = "#";
-        ss << std::hex << color.R;
-        ss << std::hex << color.G;
-        ss << std::hex << color.B;
-        ss << std::hex << color.a;
-        string->append("el " + name + " " + ss.str());
+        Color color = entry.second.getColor();
+        string->append("el " + name + " #" +
+                to_hex(color.r) + to_hex(color.g) +
+                to_hex(color.b) + to_hex(color.a));
         string->append("\n");
     }
 
     for (auto entryA : elements) {
         for (auto entryB : elements) {
             string->append("gr " + entryA.first + " " + entryB.first);
-            string->append(" " + std::to_string(entryA.second->getGravity(entryB.second)));
+            string->append(" " + std::to_string(entryA.second.getGravity(&entryB.second)));
             string->append("\n");
         }
     }
     return string;
 }
 
-void dumpToFile(std::string path) {
+void rf::Matter::dumpToFile(std::string path) {
     std::string* string = dumpToString();
-    ofstream file; file.open(path);
+    std::ofstream file; file.open(path);
     file << *string;
     file.close();
 }

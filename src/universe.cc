@@ -1,15 +1,15 @@
 #include <rf/universe.hh>
 #include <cmath>
 #include <raylib.h>
-#define ACCELERATOR 1
 
 // Matter matter
 // std::map<Element*, vector<Particle>> particles
 
-rf::Universe::Universe(size_t width, size_t height, size_t radius) {
+rf::Universe::Universe(size_t width, size_t height, size_t radius, float speed) {
     this->width = width;
     this->height = height;
     this->radius = radius;
+    this->speed = speed;
 }
 
 void rf::Universe::step() {
@@ -22,40 +22,36 @@ void rf::Universe::step() {
                     double dy = (particleA->pos.y - particleB->pos.y);
                     // double d = std::sqrt((dx*dx) + (dy*dy));
                     double d = (dx*dx) + (dy*dy);
-                    if (d > 0) {// && d < radius) {
+                    if (d > 0 && d < radius) {
                         double F = (gravity) / d;
                         particleA->acc.x += F * dx;
                         particleA->acc.y += F * dy;
                     }
                 }
-            }
-        }
-    }
-    for (auto group = particles.begin(); group != particles.end(); ++group) {
-        for (auto particle = group->second.begin(); particle != group->second.end(); ++particle) {
-            particle->vel.x = ACCELERATOR * (particle->vel.x + particle->acc.x);
-            particle->vel.y = ACCELERATOR * (particle->vel.y + particle->acc.y);
+                particleA->vel.x += speed * particleA->acc.x;
+                particleA->vel.y += speed * particleA->acc.y;
 
-            particle->pos.x += particle->vel.x;
-            particle->pos.y += particle->vel.y;
-            
-            if (particle->pos.x <= 0) {
-                particle->vel.x *= -1;
-                particle->pos.x = 1;
-            } else if (particle->pos.x >= width) {
-                particle->vel.x *= -1;
-                particle->pos.x = width - 1;
-            }
-            
-            if (particle->pos.y <= 0) {
-                particle->vel.y *= -1;
-                particle->pos.y = 1;
-            } else if (particle->pos.y >= height) {
-                particle->vel.y *= -1;
-                particle->pos.y = height - 1;
-            }
+                particleA->pos.x += particleA->vel.x;
+                particleA->pos.y += particleA->vel.y;
+                
+                if (particleA->pos.x <= 0) {
+                    particleA->vel.x *= -1;
+                    particleA->pos.x = 1;
+                } else if (particleA->pos.x >= width) {
+                    particleA->vel.x *= -1;
+                    particleA->pos.x = width - 1;
+                }
+                
+                if (particleA->pos.y <= 0) {
+                    particleA->vel.y *= -1;
+                    particleA->pos.y = 1;
+                } else if (particleA->pos.y >= height) {
+                    particleA->vel.y *= -1;
+                    particleA->pos.y = height - 1;
+                }
 
-            particle->acc = {0, 0};
+                particleA->acc = {0, 0};
+            }
         }
     }
 }
@@ -100,16 +96,16 @@ void rf::Universe::loadMatterFromFile(std::string path) {
 
 
 void rf::Universe::randomMatter() {
-    matter.addElement("Green", Element(GREEN));
-    matter.addElement("Red", Element(RED));
-    matter.addElement("Black", Element(BLACK));
-    matter.addElement("Blue", Element(BLUE));
+    matter.setElement("Green", Element(GREEN));
+    matter.setElement("Red", Element(RED));
+    matter.setElement("Black", Element(BLACK));
+    matter.setElement("Blue", Element(BLUE));
 };
 
 std::string* rf::Universe::dumpMatterToString() {
-    return matter.dumpMatterToString();
+    return matter.dumpToString();
 }
 
 void rf::Universe::dumpMatterToFile(std::string path) {
-    matter.dumpMatterToFile(path);
+    matter.dumpToFile(path);
 }

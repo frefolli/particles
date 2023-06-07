@@ -40,12 +40,13 @@ void rf::Matter::processCommand(std::vector<std::string>* command) {
         std::string color = command->at(2);
         if (color.at(0) == '#') {
             if (color.size() != 7)
-                throw std::runtime_error("RGB color should be in format #ffffff");
-            int R, G, B;
+                throw std::runtime_error("RGB color should be in format #ffffffff");
+            unsigned char R, G, B, a;
             std::istringstream(color.substr(1,2)) >> std::hex >> R;
             std::istringstream(color.substr(3,2)) >> std::hex >> G;
             std::istringstream(color.substr(5,2)) >> std::hex >> B;
-            setElement(name, Color {R,G,B});
+            std::istringstream(color.substr(7,2)) >> std::hex >> a;
+            setElement(name, Color {R, G, B, a});
         } else {
             if (color == "white")
                 setElement(name, WHITE);
@@ -80,7 +81,7 @@ void rf::Matter::processCommand(std::vector<std::string>* command) {
     *command = {};
 }
 
-void rf::Matter::readFromString(std::string* text) {
+void rf::Matter::loadFromString(std::string* text) {
     std::string buffer = "";
     std::vector<std::string> vbuffer = {};
     auto it = text->begin();
@@ -108,11 +109,11 @@ void rf::Matter::readFromString(std::string* text) {
     }
 }
 
-void rf::Matter::readFromFile(std::string path) {
-    ifstream file; file.open(path);
+void rf::Matter::loadFromFile(std::string path) {
+    std::ifstream file; file.open(path);
     std::string text = "";
     while(std::getline(file, text))
         text += "\n";
     file.close();
-    readFromString(&text);
+    loadFromString(&text);
 }

@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 #include <rf/element.hh>
 
 namespace rf {
@@ -17,8 +18,8 @@ namespace rf {
             void setElement(std::string name, Element element);
             Element* randomElement();
             void processCommand(std::vector<std::string>* command);
-            void readFromFile(std::string* text);
-            void readFromString(std::string path);
+            void loadFromString(std::string* text);
+            void loadFromFile(std::string path);
     };
 }
 

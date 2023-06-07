@@ -1,2 +1,24 @@
+el Green green
+el Red red
+el Black black
 el Blue blue
-gr Blue Blue 1
+
+gr Green Green 16.5
+gr Green Red 0
+gr Green Black 0
+gr Green Blue 0
+
+gr Red Red 70.5
+gr Red Green -20
+gr Red Black 0
+gr Red Blue 31.5
+
+gr Black Black -46
+gr Black Red 26
+gr Black Green 14
+gr Black Blue 0
+ 
+gr Blue Blue -13.5
+gr Blue Black 2.5
+gr Blue Red 1.5
+gr Blue Green 15.5

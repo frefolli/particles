@@ -76,7 +76,6 @@ void rf::Matter::processCommand(std::vector<std::string>* command) {
         std::string nameB = command->at(2);
         float gravity = std::stof(command->at(3));
         getElement(nameA)->setGravity(getElement(nameB), gravity);
-        getElement(nameB)->setGravity(getElement(nameA), gravity);
     }
     *command = {};
 }

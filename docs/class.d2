@@ -1,0 +1,28 @@
+Element: {
+    shape: class
+    gravities: "map<Element*, float>"
+}
+
+Matter: {
+    shape: class
+    elements: "map<string, Element>"
+}
+
+Particle: {
+    shape: class
+    pos: "Vector2"
+    vel: "Vector2"
+    acc: "Vector2"
+    element: "Element*"
+}
+
+Universe: {
+    shape: class
+    particles: "map<Element*, vector<Particle>>"
+    matter: "Matter"
+}
+
+Universe o--- Particle
+Universe ---- Matter
+Particle ---- Element
+Matter o--- Element

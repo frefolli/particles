@@ -3,22 +3,22 @@ el Red red
 el Black black
 el Blue blue
 
-gr Green Green 16.5
+gr Green Green 0.165
 gr Green Red 0
 gr Green Black 0
 gr Green Blue 0
 
-gr Red Red 70.5
-gr Red Green -20
+gr Red Red 0.705
+gr Red Green -0.20
 gr Red Black 0
-gr Red Blue 31.5
+gr Red Blue 0.315
 
-gr Black Black -46
-gr Black Red 26
-gr Black Green 14
+gr Black Black -0.46
+gr Black Red 0.26
+gr Black Green 0.14
 gr Black Blue 0
  
-gr Blue Blue -13.5
-gr Blue Black 2.5
-gr Blue Red 1.5
-gr Blue Green 15.5
+gr Blue Blue -0.135
+gr Blue Black 0.025
+gr Blue Red 0.015
+gr Blue Green 0.155

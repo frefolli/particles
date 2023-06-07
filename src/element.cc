@@ -18,8 +18,11 @@ double rf::Element::getGravity(rf::Element* other) {
     if (other == nullptr)
         throw std::runtime_error("NullPointerException");
     auto item = gravities.find(other);
-    if (item == gravities.end())
-        return 0.0F;
+    if (item == gravities.end()) {
+        float r = static_cast <float> (std::rand()) / static_cast <float> (RAND_MAX);
+        setGravity(other, r);
+        return r;
+    }
     return item->second;
 }
 

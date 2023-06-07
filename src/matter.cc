@@ -3,6 +3,7 @@
 #include <fstream>
 #include <raylib.h>
 #include <sstream>
+#include <filesystem>
 
 // std::map<std::string, Element> elements
 
@@ -26,6 +27,8 @@ void rf::Matter::setElement(std::string name, rf::Element element) {
 }
 
 rf::Element* rf::Matter::randomElement() {
+    if (elements.size() == 0)
+        throw std::runtime_error("EmptyMatterException");
     auto it = elements.begin();
     std::advance(it, std::rand() % elements.size());
     return &it->second;
@@ -34,7 +37,7 @@ rf::Element* rf::Matter::randomElement() {
 void rf::Matter::processCommand(std::vector<std::string>* command) {
     if (command->at(0) == "el") {
         if (command->size() != 3) {
-            throw std::runtime_error("syntax for `el`: el <ElementName> <ElementColor>");
+            throw std::runtime_error("syntax for `el`: el <ElementName> <ElementColor>\ngiven " + std::to_string(command->size()) + " arguments, expected 3");
         }
         std::string name = command->at(1);
         std::string color = command->at(2);
@@ -76,6 +79,8 @@ void rf::Matter::processCommand(std::vector<std::string>* command) {
         std::string nameB = command->at(2);
         float gravity = std::stof(command->at(3));
         getElement(nameA)->setGravity(getElement(nameB), gravity);
+    } else {
+        throw std::runtime_error("invalid command: " + command->at(0));
     }
     *command = {};
 }
@@ -86,6 +91,10 @@ void rf::Matter::loadFromString(std::string* text) {
     auto it = text->begin();
     while(it != text->end()) {
         if (*it == '\n') {
+            if (buffer.size() > 0) {
+                vbuffer.push_back(buffer);
+                buffer = "";
+            }
             if (vbuffer.size() > 0) {
                 processCommand(&vbuffer);
             }
@@ -109,10 +118,14 @@ void rf::Matter::loadFromString(std::string* text) {
 }
 
 void rf::Matter::loadFromFile(std::string path) {
+    if (!std::filesystem::exists(path))
+        throw std::runtime_error("file not found: " + path);
     std::ifstream file; file.open(path);
-    std::string text = "";
-    while(std::getline(file, text))
+    std::string text = "", line = "";
+    while(std::getline(file, line)) {
+        text += line;
         text += "\n";
+    }
     file.close();
     loadFromString(&text);
 }

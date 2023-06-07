@@ -4,20 +4,21 @@
 #include <random>
 #include <stdexcept>
 
-size_t WIDTH = 600;
-size_t HEIGHT = 400;
-size_t NUMBER_OF_PARTICLES = 50;
+size_t WIDTH = 1366;
+size_t HEIGHT = 768;
+size_t RADIUS = 80;
+size_t NUMBER_OF_PARTICLES = 2000;
 
 rf::Universe* UNIVERSE = nullptr;
 
 void InitUniverse() {
-    UNIVERSE = new rf::Universe(WIDTH, HEIGHT);
+    UNIVERSE = new rf::Universe(WIDTH, HEIGHT, RADIUS);
     if (UNIVERSE == nullptr)
         throw std::runtime_error("NullPointerException");
+    UNIVERSE->loadMatterFromFile("assets/first.mat");
 }
 
 void FillUniverse() {
-    UNIVERSE->loadMatterFromFile("assets/first.mat");
     UNIVERSE->addParticles(NUMBER_OF_PARTICLES);
 }
 

@@ -9,11 +9,11 @@
 namespace rf {
     class Universe {
         private:
-            size_t width, height;
+            size_t width, height, radius;
             Matter matter;
             std::map<Element*, std::vector<Particle>> particles;
         public:
-            Universe(size_t width, size_t height);
+            Universe(size_t width, size_t height, size_t radius);
             void step();
             void draw();
             void addElement(std::string name, Element element);

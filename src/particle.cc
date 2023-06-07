@@ -1,6 +1,6 @@
 #include <rf/particle.hh>
 #include <stdexcept>
-#define RADIUS 10.0F
+#define RADIUS 5.0F
 
 // Vector2 pos
 // Vector2 vel
